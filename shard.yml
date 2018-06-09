@@ -6,4 +6,9 @@ authors:
 
 crystal: 0.24.2
 
+dependencies:
+  marpa:
+    github: omarroth/marpa
+    branch: master
+
 license: MIT
