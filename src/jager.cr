@@ -95,11 +95,16 @@ module Jager
                 end
               else
                 stack.each do |item|
+                  if ["\\w", "\\W", "\\d", "\\D", "\\s", "\\S"].includes? item[0]
+                    item = decode_element([item]).as(Array(String))
+                    output += item.sample(1)[0]
+                  else
                   output += stack_to_string(item)
                 end
               end
             end
           end
+        end
         end
       else
         output = stack
