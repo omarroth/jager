@@ -44,5 +44,4 @@ character ::= <escaped character>
 
 <escaped character> ~ '\' ascii
 <reserved character> ~ /\\[\^\$\[\]\{\}\(\)\|\+\.]|\\/
-ascii ~ /[ !"$^#%&',-\/0-9:;<=>@A-Z_`a-z~]/
-<character in class> ~ /[+*?.{})_|/]/
+ascii ~ /[ !"#%&',-\/0-9:;<=>@A-Z_`a-z~]/
