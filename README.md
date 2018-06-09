@@ -1,6 +1,10 @@
 # jager
 
-TODO: Write a description here
+This is a sample project built on [marpa](https://github.com/omarroth/marpa).
+
+Given a regular expression, generate a string that matches that expression
+
+_Note: this is still very buggy and not recommended for production use. There are several instances, especially when dealing with escaped characters, where it may not correctly generate a matching string._
 
 ## Installation
 
@@ -9,29 +13,52 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   jager:
-    github: [your-github-name]/jager
+    github: omarroth/jager
 ```
 
 ## Usage
 
 ```crystal
 require "jager"
+
+regex = /\d{3}-\d{3}-\d{4}/
+engine = Jager::Engine.new
+
+input = engine.generate(regex)
+
+input # => "754-327-6740"
 ```
 
-TODO: Write usage instructions here
+## Examples
 
-## Development
+| Name        | Regex                                                          | Output                                 |
+| ----------- | -------------------------------------------------------------- | -------------------------------------- |
+| US Phone    | /\d{3}-\d{3}-\d{4}/                                            | "019-586-1821"                         |
+| UUID        | /[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}/ | "0d007d29-f50b-4763-f40e-102fcaa77a1b" |
+| JSON Number | /-?(?=[1-9]\|(?!\d))\d+(\.\d+)?([eE][+-]?\d+)?/                | "0793.4e+8780494"                      |
+| US Dollar   | /\\$([1-9]{1}[0-9]{0,2})(,\d{3}){0,4}(.\d{2})?/                | "$7,239,557,686.39"                    |
 
-TODO: Write development instructions here
+## Notes
+
+- Alternatives `("a|b|c")` are parsed as `( ( a | b ) | c )`; each alternative does NOT have an equal chance of being selected
+- There is default range of 10 for `*`, `+`, `{min,}`:
+  - `*` will generate from 0 to 9,
+  - `+` will generate 1 to 10,
+  - `{min,}` will generate from `min` to `min + 10`.
+- Jager does **not** support:
+  - unicode characters (`\u00a9`),
+  - anchors (`$`, `^`),
+  - dots (`.`),
+  - extended character classes (`[[:digit:]]`, `[[:alpha:]]`)
 
 ## Contributing
 
-1. Fork it ( https://github.com/[your-github-name]/jager/fork )
-2. Create your feature branch (git checkout -b my-new-feature)
-3. Commit your changes (git commit -am 'Add some feature')
-4. Push to the branch (git push origin my-new-feature)
-5. Create a new Pull Request
+1.  Fork it ( https://github.com/omarroth/jager/fork )
+2.  Create your feature branch (git checkout -b my-new-feature)
+3.  Commit your changes (git commit -am 'Add some feature')
+4.  Push to the branch (git push origin my-new-feature)
+5.  Create a new Pull Request
 
 ## Contributors
 
-- [[your-github-name]](https://github.com/[your-github-name]) Omar Roth - creator, maintainer
+- [omarroth](https://github.com/omarroth) Omar Roth - creator, maintainer
