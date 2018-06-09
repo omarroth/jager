@@ -195,7 +195,29 @@ module Jager
           end
         end
       else
-        return element.as(String)
+        item = element.as(String)
+
+        case item
+        when "\\t"
+          item = "\t"
+        when "\\n"
+          item = "\n"
+        when "\\v"
+          item = "v"
+        when "\\f"
+          item = "\f"
+        when "\\r"
+          item = "\r"
+        when "\\0"
+          item = "\0"
+        else
+          if item.starts_with?("\\") && item.size == 2
+            item = item.lchop
+          end
+        end
+
+        return item
+      end
       end
     end
   end
