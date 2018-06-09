@@ -4,6 +4,7 @@ element ::=
   '(' elements ')'
 | '(?=' elements ')'
 | '(?!' elements ')'
+| '(?:' elements ')'
 | '[' <class body elements> ']'
 | '[^' <class body elements> ']'
 | element '+'
@@ -40,6 +41,6 @@ range ::= character '-' character
 character ::= <escaped character>
 | ascii
 
-<escaped character> ~ /\\[\^\$\\\.\[\]\{\}\(\)\|\+]/
-ascii ~ /[ !"#%&',-\/0-9:;<=>@A-Z_`a-z~]/
-<character in class> ~ /[+*?^$.{})_|/]/
+<escaped character> ~ /\\[\^\$\[\]\{\}\(\)\|\+\.]|\\/
+ascii ~ /[ !"$^#%&',-\/0-9:;<=>@A-Z_`a-z~]/
+<character in class> ~ /[+*?.{})_|/]/
