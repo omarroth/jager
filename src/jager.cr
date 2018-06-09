@@ -99,7 +99,28 @@ module Jager
                     item = decode_element([item]).as(Array(String))
                     output += item.sample(1)[0]
                   else
-                  output += stack_to_string(item)
+                    item = stack_to_string(item)
+
+                    case item
+                    when "\\t"
+                      item = "\t"
+                    when "\\n"
+                      item = "\n"
+                    when "\\v"
+                      item = "v"
+                    when "\\f"
+                      item = "\f"
+                    when "\\r"
+                      item = "\r"
+                    when "\\0"
+                      item = "\0"
+                    else
+                      if item.starts_with?("\\") && item.size == 2
+                        item = item.lchop
+                      end
+                    end
+
+                    output += item
                 end
               end
             end

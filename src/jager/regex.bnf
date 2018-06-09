@@ -39,8 +39,10 @@ range ::= character '-' character
 | '\S'
 
 character ::= <escaped character>
+| <reserved character>
 | ascii
 
-<escaped character> ~ /\\[\^\$\[\]\{\}\(\)\|\+\.]|\\/
+<escaped character> ~ '\' ascii
+<reserved character> ~ /\\[\^\$\[\]\{\}\(\)\|\+\.]|\\/
 ascii ~ /[ !"$^#%&',-\/0-9:;<=>@A-Z_`a-z~]/
 <character in class> ~ /[+*?.{})_|/]/
