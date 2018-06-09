@@ -8,8 +8,15 @@ module Jager
 
     # Generate a string that matches the given regex
     def generate(regex : Regex)
+      regex = regex.to_s
+      regex = regex.partition(":")[2]
+      regex = regex.rchop
+      return generate(regex)
+    end
+
+    # Generate a string that matches the given regex (as string)
+    def generate(regex : String)
       grammar = File.read("src/jager/regex.bnf")
-      regex = regex.source
 
       parser = Marpa::Parser.new
       stack = parser.parse(grammar, regex)
