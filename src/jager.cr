@@ -70,7 +70,7 @@ module Jager
                 output += stack_to_string(stack[0])
               end
             when "*"
-              rand(LENGTH + 1).times do
+              rand(LENGTH).times do
                 output += stack_to_string(stack[0])
               end
             when "?"
@@ -94,7 +94,7 @@ module Jager
                     output += stack_to_string(stack[0])
                   end
                 elsif comma
-                  rand(LENGTH).times do
+                  rand(LENGTH + 1).times do
                     output += stack_to_string(stack[0])
                   end
                 end
