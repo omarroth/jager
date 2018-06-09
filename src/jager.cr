@@ -27,7 +27,7 @@ module Jager
       return string
     end
 
-    # Method for turning stack produced from succesful parse into random output that matches
+    # Method for turning stack produced from succesful parse into output that matches
     # the given regular expression
     def stack_to_string(stack)
       output = ""
@@ -37,10 +37,15 @@ module Jager
         when "("
           body = stack[1].as(Array)
           output += stack_to_string(body)
+        when "(?:"
+          body = stack[1].as(Array)
+          output += stack_to_string(body)
         when "(?="
-          raise "not implemented: (?="
+          body = stack[1].as(Array)
+          output += stack_to_string(body)
         when "(?!"
-          raise "not implemented: (?="
+          body = stack[1].as(Array)
+          output += stack_to_string(body)
         when "["
           body = stack[1].as(Array)
           body = body.map { |item| decode_element(item) }
