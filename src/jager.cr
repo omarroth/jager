@@ -126,11 +126,11 @@ module Jager
                     end
 
                     output += item
+                  end
                 end
               end
             end
           end
-        end
         end
       else
         output = stack
@@ -173,9 +173,9 @@ module Jager
           if character_class.starts_with? "\\"
             case character_class
             when "\\w"
-              chars = ACCEPTABLE_SET[16..25] + ACCEPTABLE_SET[33..58] + ACCEPTABLE_SET[65..90] + ["_"]
+              chars = ACCEPTABLE_SET[16..25] + ACCEPTABLE_SET[33..58] + ACCEPTABLE_SET[64..89] + ["_"]
             when "\\W"
-              chars = ACCEPTABLE_SET[16..25] + ACCEPTABLE_SET[33..58] + ACCEPTABLE_SET[65..90] + ["_"]
+              chars = ACCEPTABLE_SET[16..25] + ACCEPTABLE_SET[33..58] + ACCEPTABLE_SET[64..89] + ["_"]
               chars = ACCEPTABLE_SET - chars
             when "\\d"
               chars = ACCEPTABLE_SET[16..25]
@@ -217,7 +217,6 @@ module Jager
         end
 
         return item
-      end
       end
     end
   end
