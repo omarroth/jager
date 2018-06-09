@@ -1,4 +1,5 @@
 # jager
+[![GitHub release](https://img.shields.io/github/release/omarroth/jager.svg)](https://github.com/omarroth/jager/releases)
 
 > This is a project built with [marpa](https://github.com/omarroth/marpa).
 
