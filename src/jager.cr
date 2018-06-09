@@ -4,7 +4,7 @@ require "marpa"
 module Jager
   class Engine
     LENGTH         = 10
-    ACCEPTABLE_SET = %( !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~\t\n).split("")
+    ACCEPTABLE_SET = %( !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~\t\n).split("")
 
     # Generate a string that matches the given regex
     def generate(regex : Regex)
