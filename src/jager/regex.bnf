@@ -1,0 +1,45 @@
+:start ::= elements
+elements ::= element+
+element ::= 
+  '(' elements ')'
+| '(?=' elements ')'
+| '(?!' elements ')'
+| '[' <class body elements> ']'
+| '[^' <class body elements> ']'
+| element '+'
+| element '*'
+| element '?'
+| element quantifier
+| elements '|' elements
+| character
+| <character class>
+
+quantifier ::= '{' min '}'
+| '{' min ',' '}'
+| '{' min ',' max '}'
+
+min ~ number
+max ~ number
+
+number ~ [\d]+
+
+<class body elements> ::= <class body element>*
+<class body element> ::= range 
+| <character class> 
+| character
+| <escaped character>
+| <character in class>
+range ::= character '-' character
+<character class> ::= '\w'
+| '\W'
+| '\d'
+| '\D'
+| '\s'
+| '\S'
+
+character ::= <escaped character>
+| ascii
+
+<escaped character> ~ /\\[\^\$\\\.\[\]\{\}\(\)\|\+]/
+ascii ~ /[ !"#%&',-\/0-9:;<=>@A-Z_`a-z~]/
+<character in class> ~ /[+*?^$.{})_|/]/
