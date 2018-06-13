@@ -371,7 +371,7 @@ module Jager
 
     # Compile given regular expression (as string)
     def compile(regex : String)
-      grammar = File.read("src/jager/regex.bnf")
+      grammar = regex_bnf
 
       parser = Marpa::Parser.new
       actions = Jager::Actions.new
