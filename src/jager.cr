@@ -62,7 +62,7 @@ module Jager
     end
 
     def character(context)
-      character = context[0].as(Array)
+      character = context.as(Array)
       character = context.flatten
       character = character[0]
 
