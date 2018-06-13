@@ -4,6 +4,9 @@ version: 0.2.0
 authors:
   - Omar Roth <omarroth@hotmail.com>
 
+description: |
+  Reverse regular expression engine
+
 crystal: 0.24.2
 
 dependencies:
