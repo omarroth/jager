@@ -54,5 +54,18 @@ describe Jager do
 
       match.should eq input
     end
+
+    it "JSON String" do
+      regex = /([^"\\]|\\[\'\"\\\/bftnrt]|\\u[a-zA-Z0-9]{4})+/
+      engine = Jager::Engine.new
+
+      input = engine.generate(regex)
+
+      if md = input.match(regex)
+        match = md[0]
+      end
+
+      match.should eq input
+    end
   end
 end

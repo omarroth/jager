@@ -23,8 +23,6 @@ module Jager
 
     def capture_group(context)
       context = context[1].as(Array)
-      context = context.as(Array)
-
       context
     end
 
@@ -73,14 +71,14 @@ module Jager
     end
 
     def union(context)
-      context = context.as(Array)
-      context.delete("|")
+      elements = context.as(Array)
+      elements.delete("|")
 
-      body = @graph.pop(context.flatten.size)
+      body = @graph.pop(elements.flatten.size)
 
       edge = 1
       edges = [] of Int32
-      context = context.map do |element|
+      elements = elements.map do |element|
         element = element.as(Array)
         element = element.flatten
         element << ""
@@ -92,18 +90,16 @@ module Jager
       end
 
       edges.each_with_index do |edge, i|
-        body.insert(edge + context[i].size - 2, {value: "", edges: [context[i..-1].flatten.size - context[i].size + 1]})
+        body.insert(edge + elements[i].size - 2, {value: "", edges: [elements[i..-1].flatten.size - elements[i].size + 1]})
       end
 
       body.insert(0, {value: "", edges: edges})
       @graph += body
 
-      context = context.flatten
-      context = context.clear
+      context.clear
       body.size.times do
         context << ""
       end
-
       context
     end
 
@@ -186,6 +182,8 @@ module Jager
         context = "\r"
       when "\\0"
         context = "\0"
+      else
+        context = character.lchop("\\")
       end
 
       context
