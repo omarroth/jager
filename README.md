@@ -1,4 +1,5 @@
 # jager
+
 [![GitHub release](https://img.shields.io/github/release/omarroth/jager.svg)](https://github.com/omarroth/jager/releases)
 
 > This is a project built with [marpa](https://github.com/omarroth/marpa).
@@ -41,15 +42,8 @@ input # => "754-327-6740"
 
 ## Notes
 
-- Alternatives `("a|b|c")` are parsed as `( ( a | b ) | c )`; each alternative does NOT have an equal chance of being selected
-- There is default range of 10 for `*`, `+`, `{min,}`:
-  - `*` will generate from 0 to 9,
-  - `+` will generate 1 to 10,
-  - `{min,}` will generate from `min` to `min + 10`.
 - Jager does **not** support:
-  - unicode characters (`\u00a9`),
   - anchors (`$`, `^`),
-  - dots (`.`),
   - extended character classes (`[[:digit:]]`, `[[:alpha:]]`)
 
 ## Contributing
