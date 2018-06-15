@@ -56,7 +56,7 @@ describe Jager do
     end
 
     it "JSON String" do
-      regex = /([^"\\]|\\[\'\"\\\/bftnrt]|\\u[a-zA-Z0-9]{4})+/
+      regex = /"([^"\\]|\\[\"\\\/bftnrt]|\\u[a-fA-F0-9]{4})+"/
       engine = Jager::Engine.new
 
       input = engine.generate(regex)

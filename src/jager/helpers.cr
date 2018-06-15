@@ -14,9 +14,9 @@ module Jager
 
         elements ::= element+
         element ::= '(' regex ')' action => capture_group
-        | '(?=' elements ')' action => not_implemented
-        | '(?!' elements ')' action => not_implemented
-        | '(?:' elements ')' action => not_implemented
+        | '(?=' regex ')' action => not_implemented
+        | '(?!' regex ')' action => not_implemented
+        | '(?:' regex ')' action => capture_group
         | '[' <character set elements> ']' action => character_set
         | '[^' <character set elements> ']' action => negated_set
         | element '+' action => plus
