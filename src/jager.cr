@@ -356,7 +356,20 @@ module Jager
     # Generate a string that matches the given regular expression (as string)
     def generate(regex : String)
       graph = compile(regex)
-      output = traverse(graph)
+      output = generate(graph)
+
+      return output
+    end
+
+    # Given graph, create output until an endpoint is found
+    def generate(graph : Array(Node))
+      output = ""
+      offset = 0
+
+      until graph[offset][:edges].empty?
+        output += graph[offset][:value]
+        offset += graph[offset][:edges].sample(1)[0]
+      end
 
       return output
     end
@@ -381,19 +394,6 @@ module Jager
       graph << {value: "", edges: [] of Int32}
 
       return graph
-    end
-
-    # Given graph, make output  until an endpoint is found
-    def traverse(graph : Array(Node))
-      output = ""
-      offset = 0
-
-      until graph[offset][:edges].empty?
-        output += graph[offset][:value]
-        offset += graph[offset][:edges].sample(1)[0]
-      end
-
-      return output
     end
   end
 end
