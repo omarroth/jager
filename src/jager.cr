@@ -311,7 +311,7 @@ module Jager
           context << ""
         end
       elsif comma
-        @graph << {value: "", edges: [1, body.size + 1]}
+        @graph << {value: "", edges: [1, body.size + 2]}
         @graph += body
         @graph << {value: "", edges: [-1 - body.size]}
 
