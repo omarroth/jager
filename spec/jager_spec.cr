@@ -67,5 +67,18 @@ describe Jager do
 
       match.should eq input
     end
+
+    it "tests escaped characters" do
+      regex = /([\x30-\x4d\x{142}-\x{332}\cI\x{40ae}\x{40ea}])/
+      engine = Jager::Engine.new
+
+      input = engine.generate(regex)
+
+      if md = input.match(regex)
+        match = md[0]
+      end
+
+      match.should eq input
+    end
   end
 end

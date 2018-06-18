@@ -6,8 +6,6 @@
 
 Given a regular expression, generate a string that matches that expression
 
-_Note: This is still very buggy: there are several instances, especially when dealing with escaped characters, where it may not correctly generate a matching string._
-
 ## Installation
 
 Add this to your application's `shard.yml`:
