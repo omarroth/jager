@@ -59,7 +59,7 @@ describe Jager do
       regex = /"([^"\\]|\\[\"\\\/bftnrt]|\\u[a-fA-F0-9]{4})+"/
       engine = Jager::Engine.new
 
-      input = engine.generate(regex)
+      input = engine.generate(regex).inspect
 
       if md = input.match(regex)
         match = md[0]
@@ -69,7 +69,7 @@ describe Jager do
     end
 
     it "tests escaped characters" do
-      regex = /([\x30-\x4d\x{142}-\x{332}\cI\x{40ae}\x{40ea}])/
+      regex = /([\x30-\x4d\x{142}-\x{332}\cI\x{40ae}\x{40ea}])+/
       engine = Jager::Engine.new
 
       input = engine.generate(regex)

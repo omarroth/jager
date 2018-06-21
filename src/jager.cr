@@ -240,7 +240,7 @@ module Jager
       character = character.lchop("\\c")
       codes.each_with_index do |match, i|
         if character == match.to_s
-          character = i.unsafe_chr.to_s
+          character = (i + 1).unsafe_chr.to_s
           break
         end
       end
