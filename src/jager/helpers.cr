@@ -1,70 +1,82 @@
 module Jager
   class Engine
-    def regex_bnf
-      bnf = <<-'END_BNF'
-        :start ::= regex
-        regex ::= union
-        | elements
+    def build_regex_grammar(actions)
+      actions.create_symbol([["regex"]])
+      actions.start_rule([":start", "::=", [[["regex"]]]])
+      actions.create_symbol([["union"]])
+      actions.create_symbol([["elements"]])
+      actions.priority_rule([[[["regex"]]], ["::="], [[[[[[[["union"]]]]], [] of String], "|", [[[[[["elements"]]]]], [] of String]]]])
+      actions.create_symbol([["<union op>"]])
+      actions.quantified_rule([[[["union"]]], ["::="], [[["elements"]]], ["+"], [[["separator", "=>", [[["<union op>"]]]]], [["action", "=>", "union"]], [["proper", "=>", "1"]]]])
+      actions.create_literal(["'|'"])
+      actions.priority_rule([[[["<union op>"]]], ["~"], [[[[["'|'"]], [] of String]]]])
+      actions.create_symbol([["element"]])
+      actions.quantified_rule([[[["elements"]]], ["::="], [[["element"]]], ["+"], [] of String])
+      actions.create_literal(["'('"])
+      actions.create_literal(["')'"])
+      actions.create_literal(["'(?='"])
+      actions.create_literal(["'(?!'"])
+      actions.create_literal(["'(?:'"])
+      actions.create_literal(["'['"])
+      actions.create_symbol([["<character set elements>"]])
+      actions.create_literal(["']'"])
+      actions.create_literal(["'[^'"])
+      actions.create_literal(["'+'"])
+      actions.create_literal(["'*'"])
+      actions.create_literal(["'?'"])
+      actions.create_symbol([["quantifier"]])
+      actions.create_symbol([["character"]])
+      actions.create_symbol([["group"]])
+      actions.priority_rule([[[["element"]]], ["::="], [[[[["'('"], [[[["regex"]]]], ["')'"]], [[["action", "=>", "capture_group"]]]], "|", [[["'(?='"], [[[["regex"]]]], ["')'"]], [[["action", "=>", "not_implemented"]]]], "|", [[["'(?!'"], [[[["regex"]]]], ["')'"]], [[["action", "=>", "not_implemented"]]]], "|", [[["'(?:'"], [[[["regex"]]]], ["')'"]], [[["action", "=>", "not_implemented"]]]], "|", [[["'['"], [[[["<character set elements>"]]]], ["']'"]], [[["action", "=>", "character_set"]]]], "|", [[["'[^'"], [[[["<character set elements>"]]]], ["']'"]], [[["action", "=>", "negated_set"]]]], "|", [[[[[["element"]]]], ["'+'"]], [[["action", "=>", "plus"]]]], "|", [[[[[["element"]]]], ["'*'"]], [[["action", "=>", "star"]]]], "|", [[[[[["element"]]]], ["'?'"]], [[["action", "=>", "optional"]]]], "|", [[[[[["element"]]]], [[[["quantifier"]]]]], [[["action", "=>", "quantifier"]]]], "|", [[[[[["character"]]]]], [[["action", "=>", "character"]]]], "|", [[[[[["group"]]]]], [[["action", "=>", "group"]]]]]]])
+      actions.create_literal(["'{'"])
+      actions.create_symbol([["min"]])
+      actions.create_literal(["'}'"])
+      actions.create_literal(["','"])
+      actions.create_symbol([["max"]])
+      actions.priority_rule([[[["quantifier"]]], ["::="], [[[[["'{'"], [[[["min"]]]], ["'}'"]], [] of String], "|", [[["'{'"], [[[["min"]]]], ["','"], ["'}'"]], [] of String], "|", [[["'{'"], [[[["min"]]]], ["','"], [[[["max"]]]], ["'}'"]], [] of String]]]])
+      actions.create_symbol([["number"]])
+      actions.priority_rule([[[["min"]]], ["~"], [[[[[[[["number"]]]]], [] of String]]]])
+      actions.priority_rule([[[["max"]]], ["~"], [[[[[[[["number"]]]]], [] of String]]]])
+      actions.create_character_class(["[\\d]"])
+      actions.quantified_rule([[[["number"]]], ["~"], ["[\\d]"], ["+"], [] of String])
+      actions.create_symbol([["<character set element>"]])
+      actions.quantified_rule([[[["<character set elements>"]]], ["::="], [[["<character set element>"]]], ["*"], [] of String])
+      actions.create_symbol([["range"]])
+      actions.create_symbol([["<set character>"]])
+      actions.priority_rule([[[["<character set element>"]]], ["::="], [[[[[[[["range"]]]]], [[["action", "=>", "range"]]]], "|", [[[[[["group"]]]]], [[["action", "=>", "group"]]]], "|", [[[[[["character"]]]]], [] of String], "|", [[[[[["<set character>"]]]]], [] of String]]]])
+      actions.create_literal(["'-'"])
+      actions.priority_rule([[[["range"]]], ["::="], [[[[[[[["character"]]]], ["'-'"], [[[["character"]]]]], [] of String]]]])
+      actions.create_regex(["/\\\\[wWdDsS]|\\./"])
+      actions.priority_rule([[[["group"]]], ["~"], [[[[["\\\\[wWdDsS]|\\."]], [] of String]]]])
+      actions.create_symbol([["ascii"]])
+      actions.create_symbol([["<reserved character>"]])
+      actions.create_symbol([["<escaped character>"]])
+      actions.create_symbol([["<octal escape>"]])
+      actions.create_symbol([["<hexadecimal escape>"]])
+      actions.create_symbol([["<unicode escape>"]])
+      actions.create_symbol([["<extended unicode escape>"]])
+      actions.create_symbol([["<control character escape>"]])
+      actions.priority_rule([[[["character"]]], ["::="], [[[[[[[["ascii"]]]]], [] of String], "|", [[[[[["<reserved character>"]]]]], [[["action", "=>", "reserved_character"]]]], "|", [[[[[["<escaped character>"]]]]], [[["action", "=>", "escaped_character"]]]], "|", [[[[[["<octal escape>"]]]]], [[["action", "=>", "octal_escape"]]]], "|", [[[[[["<hexadecimal escape>"]]]]], [[["action", "=>", "hexadecimal_escape"]]]], "|", [[[[[["<unicode escape>"]]]]], [[["action", "=>", "unicode_escape"]]]], "|", [[[[[["<extended unicode escape>"]]]]], [[["action", "=>", "extended_unicode_escape"]]]], "|", [[[[[["<control character escape>"]]]]], [[["action", "=>", "control_character_escape"]]]]]]])
+      actions.create_character_class(["[ !\"#%&',0-9:;<=>@A-Z_`a-z{}~-]"])
+      actions.priority_rule([[[["ascii"]]], ["~"], [[[[[["[ !\"#%&',0-9:;<=>@A-Z_`a-z{}~-]"]]], [] of String]]]])
+      actions.create_regex(["/\\\\[+*?^$\\\\\\.\\[\\]\\{\\}\\(\\)\\|\\/]/"])
+      actions.priority_rule([[[["<reserved character>"]]], ["~"], [[[[["\\\\[+*?^$\\\\\\.\\[\\]\\{\\}\\(\\)\\|\\/]"]], [] of String]]]])
+      actions.create_literal(["'\\'"])
+      actions.priority_rule([[[["<escaped character>"]]], ["~"], [[[[["'\\'"], [[[["ascii"]]]]], [] of String]]]])
+      actions.create_character_class(["[+*?^$.[{}()|/]"])
+      actions.priority_rule([[[["<set character>"]]], ["~"], [[[[[["[+*?^$.[{}()|/]"]]], [] of String]]]])
+      actions.create_regex(["/\\\\[\\d]{3}/"])
+      actions.priority_rule([[[["<octal escape>"]]], ["~"], [[[[["\\\\[\\d]{3}"]], [] of String]]]])
+      actions.create_regex(["/\\\\x[a-fA-F0-9]{2}/"])
+      actions.priority_rule([[[["<hexadecimal escape>"]]], ["~"], [[[[["\\\\x[a-fA-F0-9]{2}"]], [] of String]]]])
+      actions.create_regex(["/\\\\u[a-fA-F0-9]{4}/"])
+      actions.priority_rule([[[["<unicode escape>"]]], ["~"], [[[[["\\\\u[a-fA-F0-9]{4}"]], [] of String]]]])
+      actions.create_regex(["/(\\\\u|\\\\x){[a-zA-Z0-9]+}/"])
+      actions.priority_rule([[[["<extended unicode escape>"]]], ["~"], [[[[["(\\\\u|\\\\x){[a-zA-Z0-9]+}"]], [] of String]]]])
+      actions.create_regex(["/\\\\c[a-zA-Z]/"])
+      actions.priority_rule([[[["<control character escape>"]]], ["~"], [[[[["\\\\c[a-zA-Z]"]], [] of String]]]])
 
-        union ::= elements+ separator => <union op>
-        action => union
-        proper => 1
-
-        <union op> ~ '|'
-
-        elements ::= element+
-        element ::= '(' regex ')' action => capture_group
-        | '(?=' regex ')' action => not_implemented
-        | '(?!' regex ')' action => not_implemented
-        | '(?:' regex ')' action => capture_group
-        | '[' <character set elements> ']' action => character_set
-        | '[^' <character set elements> ']' action => negated_set
-        | element '+' action => plus
-        | element '*' action => star
-        | element '?' action => optional
-        | element quantifier action => quantifier
-        | character action => character
-        | group action => group
-
-        quantifier ::= '{' min '}'
-        | '{' min ',' '}'
-        | '{' min ',' max '}'
-
-        min ~ number
-        max ~ number
-
-        number ~ [\d]+
-
-        <character set elements> ::= <character set element>*
-        <character set element> ::= range action => range
-        | group action => group
-        | character
-        | <set character>
-
-        range ::= character '-' character
-        group ~ /\\[wWdDsS]|\./
-
-        character ::= ascii
-        | <reserved character> action => reserved_character
-        | <escaped character> action => escaped_character
-        | <octal escape> action => octal_escape
-        | <hexadecimal escape> action => hexadecimal_escape
-        | <unicode escape> action => unicode_escape
-        | <extended unicode escape> action => extended_unicode_escape
-        | <control character escape> action => control_character_escape
-
-        ascii ~ [ !"#%&',0-9:;<=>@A-Z_`a-z{}~-]
-        <reserved character> ~ /\\[+*?^$\\\.\[\]\{\}\(\)\|\/]/
-        <escaped character> ~ '\' ascii
-        <set character> ~ [+*?^$.[{}()|/]
-
-        <octal escape> ~ /\\[\d]{3}/
-        <hexadecimal escape> ~ /\\x[a-fA-F0-9]{2}/
-        <unicode escape> ~ /\\u[a-fA-F0-9]{4}/
-        <extended unicode escape> ~ /(\\u|\\x){[a-zA-Z0-9]+}/
-        <control character escape> ~ /\\c[a-zA-Z]/
-      END_BNF
-      return bnf
+      return actions
     end
   end
 end

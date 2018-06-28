@@ -340,7 +340,7 @@ module Jager
     end
 
     def not_implemented(context)
-      raise "Not implemented"
+      raise "Not implemented: #{context[0]}"
     end
   end
 
@@ -350,6 +350,7 @@ module Jager
       regex = regex.to_s
       regex = regex.partition(":")[2]
       regex = regex.rchop
+
       return generate(regex)
     end
 
@@ -379,14 +380,16 @@ module Jager
       regex = regex.to_s
       regex = regex.partition(":")[2]
       regex = regex.rchop
+
       return compile(regex)
     end
 
     # Compile given regular expression (as string)
     def compile(regex : String)
-      grammar = regex_bnf
-
       parser = Marpa::Parser.new
+      grammar = Marpa::Builder.new
+      grammar = build_regex_grammar(grammar)
+
       actions = Jager::Actions.new
       string = parser.parse(regex, grammar, actions)
 
