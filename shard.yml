@@ -1,5 +1,5 @@
 name: jager
-version: 0.4.0
+version: 0.4.1
 
 authors:
   - Omar Roth <omarroth@hotmail.com>
@@ -12,6 +12,6 @@ crystal: 0.25.0
 dependencies:
   marpa:
     github: omarroth/marpa
-    version: 0.3.0
+    branch: master
 
 license: MIT
