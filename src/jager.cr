@@ -26,6 +26,11 @@ module Jager
       context
     end
 
+    def subpattern(context)
+      context = context[3].as(Array)
+      context
+    end
+
     def group(context)
       group = context[0].as(String)
 
@@ -347,9 +352,7 @@ module Jager
   class Engine
     # Generate a string that matches the given regex
     def generate(regex : Regex)
-      regex = regex.to_s
-      regex = regex.partition(":")[2]
-      regex = regex.rchop
+      regex = regex.source
 
       return generate(regex)
     end
@@ -387,6 +390,7 @@ module Jager
     # Compile given regular expression (as string)
     def compile(regex : String)
       parser = Marpa::Parser.new
+
       grammar = Marpa::Builder.new
       grammar = build_regex_grammar(grammar)
 
