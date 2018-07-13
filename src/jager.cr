@@ -27,7 +27,7 @@ module Jager
     end
 
     def subpattern(context)
-      context = context[3].as(Array)
+      context = context[5].as(Array)
       context
     end
 

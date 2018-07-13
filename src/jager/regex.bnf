@@ -10,7 +10,7 @@ element ::= '(' regex ')' action => capture_group
 | '(?=' regex ')' action => not_implemented
 | '(?!' regex ')' action => not_implemented
 | '(?:' regex ')' action => not_implemented
-| '(?-' flags ':' regex ')' action => subpattern
+| '(?' flags '-' flags ':' regex ')' action => subpattern
 | '[' <character set elements> ']' action => character_set
 | '[^' <character set elements> ']' action => negated_set
 | element '+' action => plus
@@ -27,7 +27,7 @@ quantifier ::= '{' min '}'
 min ~ number
 max ~ number
 
-flags ~ [imsx]+
+flags ~ [imsx]*
 number ~ [\d]+
 
 <character set elements> ::= <character set element>*
