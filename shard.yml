@@ -7,7 +7,7 @@ authors:
 description: |
   Reverse regular expression engine
 
-crystal: 0.25.0
+crystal: 0.26.1
 
 dependencies:
   marpa:
