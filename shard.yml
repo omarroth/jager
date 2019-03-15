@@ -1,5 +1,5 @@
 name: jager
-version: 0.4.1
+version: 0.5.0
 
 authors:
   - Omar Roth <omarroth@hotmail.com>
@@ -7,11 +7,11 @@ authors:
 description: |
   Reverse regular expression engine
 
-crystal: 0.26.1
+crystal: 0.27.2
 
 dependencies:
   marpa:
     github: omarroth/marpa
     branch: master
 
-license: MIT
+license: GPLv3
