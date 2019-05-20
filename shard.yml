@@ -2,12 +2,12 @@ name: jager
 version: 0.5.0
 
 authors:
-  - Omar Roth <omarroth@hotmail.com>
+  - Omar Roth <omarroth@protonmail.com>
 
 description: |
   Reverse regular expression engine
 
-crystal: 0.27.2
+crystal: 0.28.0
 
 dependencies:
   marpa:
