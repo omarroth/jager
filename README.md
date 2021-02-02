@@ -1,5 +1,9 @@
 # jager
 
+I would recommend re-implementing this if you plan on using it for anything yourself. The approach in this library is a poorly-informed implementation based on parser actions.
+
+If anyone is curious on how something like this would be implemented **correctly** I would recommend reading Russ Cox's series of posts, and convert a regular expression into a proper DFA as described [here](https://swtch.com/~rsc/regexp/regexp1.html). Then this library reduces to traversing the DFA randomly until reaching an accept state.
+
 [![GitHub release](https://img.shields.io/github/release/omarroth/jager.svg)](https://github.com/omarroth/jager/releases)
 
 > This is a project built with [marpa](https://github.com/omarroth/marpa).
